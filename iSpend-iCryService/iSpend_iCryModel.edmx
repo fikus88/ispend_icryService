@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ispend_icryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="account">
+          <Key>
+            <PropertyRef Name="account_id" />
+          </Key>
+          <Property Name="account_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="update_timestamp" Type="datetime" Nullable="false" />
+          <Property Name="account_type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="display_name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="currency" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="provider_display_name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="provider_id" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="logo_uri" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="account_number_iban" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="account_number_swift_bic" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="account_number_number" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="account_number_sort_code" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="balance">
+          <Key>
+            <PropertyRef Name="account_id" />
+          </Key>
+          <Property Name="account_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="curency" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="available" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="current" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="update_timestamp" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="transaction">
+          <Key>
+            <PropertyRef Name="transaction_id" />
+          </Key>
+          <Property Name="transaction_id" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="account_id" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="timestamp" Type="datetime" Nullable="false" />
+          <Property Name="description" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="transaction_type" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="transaction_category" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="amount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="currency" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="meta_provider_transaction_category" Type="nvarchar" MaxLength="50" />
+          <Property Name="meta_transaction_reference" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityContainer Name="ispend_icryModelStoreContainer">
+          <EntitySet Name="account" EntityType="Self.account" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="balance" EntityType="Self.balance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="transaction" EntityType="Self.transaction" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ispend_icryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ispend_icryEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="accounts" EntityType="ispend_icryModel.account" />
+          <EntitySet Name="balances" EntityType="ispend_icryModel.balance" />
+          <EntitySet Name="transactions" EntityType="ispend_icryModel.transaction" />
+        </EntityContainer>
+        <EntityType Name="account">
+          <Key>
+            <PropertyRef Name="account_id" />
+          </Key>
+          <Property Name="account_id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="update_timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="account_type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="display_name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="currency" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="provider_display_name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="provider_id" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="logo_uri" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="account_number_iban" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="account_number_swift_bic" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="account_number_number" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="account_number_sort_code" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="balance">
+          <Key>
+            <PropertyRef Name="account_id" />
+          </Key>
+          <Property Name="account_id" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="curency" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="available" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="current" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="update_timestamp" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="transaction">
+          <Key>
+            <PropertyRef Name="transaction_id" />
+          </Key>
+          <Property Name="transaction_id" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="account_id" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="description" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="transaction_category" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="amount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="currency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="meta_provider_transaction_category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="meta_transaction_reference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="transaction_type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ispend_icryModelStoreContainer" CdmEntityContainer="ispend_icryEntities" >
+          <EntitySetMapping Name="accounts">
+            <EntityTypeMapping TypeName="ispend_icryModel.account">
+              <MappingFragment StoreEntitySet="account">
+                <ScalarProperty Name="account_number_sort_code" ColumnName="account_number_sort_code" />
+                <ScalarProperty Name="account_number_number" ColumnName="account_number_number" />
+                <ScalarProperty Name="account_number_swift_bic" ColumnName="account_number_swift_bic" />
+                <ScalarProperty Name="account_number_iban" ColumnName="account_number_iban" />
+                <ScalarProperty Name="logo_uri" ColumnName="logo_uri" />
+                <ScalarProperty Name="provider_id" ColumnName="provider_id" />
+                <ScalarProperty Name="provider_display_name" ColumnName="provider_display_name" />
+                <ScalarProperty Name="currency" ColumnName="currency" />
+                <ScalarProperty Name="display_name" ColumnName="display_name" />
+                <ScalarProperty Name="account_type" ColumnName="account_type" />
+                <ScalarProperty Name="update_timestamp" ColumnName="update_timestamp" />
+                <ScalarProperty Name="account_id" ColumnName="account_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="balances">
+            <EntityTypeMapping TypeName="ispend_icryModel.balance">
+              <MappingFragment StoreEntitySet="balance">
+                <ScalarProperty Name="update_timestamp" ColumnName="update_timestamp" />
+                <ScalarProperty Name="current" ColumnName="current" />
+                <ScalarProperty Name="available" ColumnName="available" />
+                <ScalarProperty Name="curency" ColumnName="curency" />
+                <ScalarProperty Name="account_id" ColumnName="account_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="transactions">
+            <EntityTypeMapping TypeName="ispend_icryModel.transaction">
+              <MappingFragment StoreEntitySet="transaction">
+                <ScalarProperty Name="transaction_type" ColumnName="transaction_type" />
+                <ScalarProperty Name="meta_transaction_reference" ColumnName="meta_transaction_reference" />
+                <ScalarProperty Name="meta_provider_transaction_category" ColumnName="meta_provider_transaction_category" />
+                <ScalarProperty Name="currency" ColumnName="currency" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="transaction_category" ColumnName="transaction_category" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="timestamp" ColumnName="timestamp" />
+                <ScalarProperty Name="account_id" ColumnName="account_id" />
+                <ScalarProperty Name="transaction_id" ColumnName="transaction_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
