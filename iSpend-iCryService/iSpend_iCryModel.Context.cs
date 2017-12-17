@@ -28,5 +28,6 @@ namespace iSpend_iCryService
         public virtual DbSet<account> accounts { get; set; }
         public virtual DbSet<balance> balances { get; set; }
         public virtual DbSet<transaction> transactions { get; set; }
+        public virtual DbSet<service_settings> service_settings { get; set; }
     }
 }

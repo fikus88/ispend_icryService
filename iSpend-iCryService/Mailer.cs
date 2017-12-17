@@ -19,13 +19,13 @@ namespace iSpend_iCryService
             string fromPass = ConfigurationManager.AppSettings["GmailPass"];
             const string subject = "Accounts Updated";
 
-            string body = "Your accounts have been updated";
+            string body_part = System.IO.File.ReadAllText("Html\\body.html");
 
             using (ispend_icryEntities db = new ispend_icryEntities())
             {
                 string update_Date = db.accounts.First().update_timestamp.ToString();
-                body += " on " + update_Date;
-                body += "\n Current Balances are : ";
+
+                body_part = body_part.Replace("<<**DATE**>>", update_Date);
 
                 var joined = from b in db.balances
                              join a in db.accounts on b.account_id equals a.account_id
@@ -35,14 +35,23 @@ namespace iSpend_iCryService
                                  b.available,
                                  b.current
                              };
-
+                string accs_html = "";
                 foreach (var detail in joined)
                 {
-                    body += "\n - " + detail.display_name + "Current: " + detail.current + ", Available : " + "<bold>" + detail.available + "</bold>";
-                }
-            }
+                    accs_html += System.IO.File.ReadAllText("Html\\account.html");
+                    // body += "\n - " + detail.display_name + "Current: " + detail.current + ", Available : " + "<bold>" + detail.available + "</bold>";
+                    accs_html = accs_html.Replace("<<**ACCOUNT_NAME**>>", detail.display_name)
+                                         .Replace("<<**CURRENT**>>", detail.current.ToString())
+                                         .Replace("<<**AVAILABLE**>>", detail.available.ToString());
 
-            body += "\n\n Thank you for using iSpend_iCry";
+                    accs_html = accs_html.Replace("<<**BG_COLOR**>>", (detail.available > 0M ? "#009900" : "#9C010F"));
+                }
+
+                accs_html += System.IO.File.ReadAllText("Html\\total.html");
+                accs_html = accs_html.Replace("<<**TOTAL_AVAILABLE**>>", joined.Sum(x => x.available).ToString());
+
+                body_part = body_part.Replace("<<**ACCOUNTS_HTML**>>", accs_html);
+            }
 
             var smtp = new SmtpClient
             {
@@ -54,11 +63,10 @@ namespace iSpend_iCryService
                 Timeout = 20000
             };
 
-            body = System.IO.File.ReadAllText("email.html");
             using (var message = new MailMessage(fromAddress, toAddress)
             {
                 Subject = subject,
-                Body = body,
+                Body = body_part,
                 IsBodyHtml = true
             })
             {

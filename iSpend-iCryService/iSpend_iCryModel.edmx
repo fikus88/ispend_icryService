@@ -32,6 +32,14 @@
           <Property Name="current" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="update_timestamp" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="service_settings">
+          <Key>
+            <PropertyRef Name="setting_id" />
+          </Key>
+          <Property Name="setting_id" Type="int" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="value" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="transaction">
           <Key>
             <PropertyRef Name="transaction_id" />
@@ -50,6 +58,7 @@
         <EntityContainer Name="ispend_icryModelStoreContainer">
           <EntitySet Name="account" EntityType="Self.account" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="balance" EntityType="Self.balance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="service_settings" EntityType="Self.service_settings" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="transaction" EntityType="Self.transaction" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -60,6 +69,7 @@
           <EntitySet Name="accounts" EntityType="ispend_icryModel.account" />
           <EntitySet Name="balances" EntityType="ispend_icryModel.balance" />
           <EntitySet Name="transactions" EntityType="ispend_icryModel.transaction" />
+          <EntitySet Name="service_settings" EntityType="ispend_icryModel.service_settings" />
         </EntityContainer>
         <EntityType Name="account">
           <Key>
@@ -102,6 +112,14 @@
           <Property Name="meta_provider_transaction_category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="meta_transaction_reference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="transaction_type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="service_settings">
+          <Key>
+            <PropertyRef Name="setting_id" />
+          </Key>
+          <Property Name="setting_id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="value" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -151,6 +169,15 @@
                 <ScalarProperty Name="timestamp" ColumnName="timestamp" />
                 <ScalarProperty Name="account_id" ColumnName="account_id" />
                 <ScalarProperty Name="transaction_id" ColumnName="transaction_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="service_settings">
+            <EntityTypeMapping TypeName="ispend_icryModel.service_settings">
+              <MappingFragment StoreEntitySet="service_settings">
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="setting_id" ColumnName="setting_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
