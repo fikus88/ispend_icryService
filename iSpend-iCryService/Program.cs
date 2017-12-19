@@ -18,7 +18,10 @@ namespace iSpend_iCryService
             string param_to = "";
             if (args.Length < 2)
             {
-                param_from = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
+                using (ispend_icryEntities db = new ispend_icryEntities())
+                {
+                    param_from = db.transactions.Max(x => x.timestamp).ToString("yyyy-MM-dd");
+                };
                 param_to = DateTime.Now.ToString("yyyy-MM-dd");
             }
             else if (args.Length == 2)
