@@ -14,24 +14,24 @@ namespace iSpend_iCryService
     {
         private static void Main(string[] args)
         {
+            string param_from = "";
+            string param_to = "";
+            if (args.Length < 2)
+            {
+                using (ispend_icryEntities db = new ispend_icryEntities())
+                {
+                    param_from = db.transactions.Max(x => x.timestamp).ToString("yyyy-MM-dd");
+                };
+                param_to = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+            else if (args.Length == 2)
+            {
+                param_from = args[0];
+                param_to = args[1];
+            }
 
             while (true)
             {
-
-
-                string param_from = "";
-                string param_to = "";
-                if (args.Length < 2)
-                {
-                    param_from = DateTime.Now.AddDays(-1).ToString("yyyy-MM-dd");
-                    param_to = DateTime.Now.ToString("yyyy-MM-dd");
-                }
-                else if (args.Length == 2)
-                {
-                    param_from = args[0];
-                    param_to = args[1];
-                }
-
                 Accounts Acc = new Accounts();
                 Balances Bal = new Balances();
 
@@ -141,24 +141,18 @@ namespace iSpend_iCryService
                     db.SaveChanges();
                 }
 
-
-
                 using (ispend_icryEntities db = new ispend_icryEntities())
                 {
                     int upd_count = db.balances.Count(x => x.requires_notification == true);
 
-                    if (upd_count > 0 )
+                    if (upd_count > 0)
                     {
-
                         Mailer.SendEmail();
-
                     }
                 }
 
-
-                // set interval here 
+                // set interval here
                 System.Threading.Thread.Sleep(10000);
-
             }
         }
     }
