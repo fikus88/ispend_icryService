@@ -31,6 +31,7 @@
           <Property Name="available" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="current" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="update_timestamp" Type="datetime" Nullable="false" />
+          <Property Name="requires_notification" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="service_settings">
           <Key>
@@ -97,6 +98,7 @@
           <Property Name="available" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="current" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="update_timestamp" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="requires_notification" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="transaction">
           <Key>
@@ -148,6 +150,7 @@
           <EntitySetMapping Name="balances">
             <EntityTypeMapping TypeName="ispend_icryModel.balance">
               <MappingFragment StoreEntitySet="balance">
+                <ScalarProperty Name="requires_notification" ColumnName="requires_notification" />
                 <ScalarProperty Name="update_timestamp" ColumnName="update_timestamp" />
                 <ScalarProperty Name="current" ColumnName="current" />
                 <ScalarProperty Name="available" ColumnName="available" />

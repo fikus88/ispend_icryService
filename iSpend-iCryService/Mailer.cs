@@ -35,6 +35,7 @@ namespace iSpend_iCryService
                                  b.available,
                                  b.current
                              };
+                
                 string accs_html = "";
                 foreach (var detail in joined)
                 {

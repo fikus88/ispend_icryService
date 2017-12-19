@@ -19,5 +19,6 @@ namespace iSpend_iCryService
         public decimal available { get; set; }
         public decimal current { get; set; }
         public System.DateTime update_timestamp { get; set; }
+        public bool requires_notification { get; set; }
     }
 }
