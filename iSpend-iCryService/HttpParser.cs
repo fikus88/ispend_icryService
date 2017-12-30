@@ -18,6 +18,8 @@ namespace iSpend_iCryService
             Transaction
         }
 
+        public static bool ResponseFailed = false;
+
         public static object GetAPIResponse(string route, List<KeyValuePair<string, string>> paramList, ResponseType type)
 
         {
@@ -31,7 +33,18 @@ namespace iSpend_iCryService
                 }
             }
             WebRequest req = WebRequest.Create(reqString);
-            WebResponse res = req.GetResponse();
+            WebResponse res = null;
+            try
+            {
+                res = req.GetResponse();
+
+            } catch (WebException e)
+            {
+                ResponseFailed = true;
+
+                return null;
+            }
+            
 
             Stream s = res.GetResponseStream();
             StreamReader sr = new StreamReader(s);

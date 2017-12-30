@@ -7,31 +7,40 @@ using BankData;
 using System.Net;
 using Newtonsoft.Json;
 using System.IO;
+using System.Threading;
 
 namespace iSpend_iCryService
 {
     internal class Program
     {
+        private static Thread ListenerThread;
+
         private static void Main(string[] args)
         {
-            string param_from = "";
-            string param_to = "";
-            if (args.Length < 2)
-            {
-                using (ispend_icryEntities db = new ispend_icryEntities())
-                {
-                    param_from = db.transactions.Max(x => x.timestamp).ToString("yyyy-MM-dd");
-                };
-                param_to = DateTime.Now.ToString("yyyy-MM-dd");
-            }
-            else if (args.Length == 2)
-            {
-                param_from = args[0];
-                param_to = args[1];
-            }
-
             while (true)
             {
+                string param_from = "";
+                string param_to = "";
+
+                if (ListenerThread == null)
+                {
+                    ListenerThread = new Thread(ChangeListener);
+                    ListenerThread.Start();
+                }
+                if (args.Length < 2)
+                {
+                    using (ispend_icryEntities db = new ispend_icryEntities())
+                    {
+                        param_from = db.transactions.Max(x => x.timestamp).ToString("yyyy-MM-dd");
+                    };
+                    param_to = DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                else if (args.Length == 2)
+                {
+                    param_from = args[0];
+                    param_to = args[1];
+                }
+
                 Accounts Acc = new Accounts();
                 Balances Bal = new Balances();
 
@@ -141,18 +150,49 @@ namespace iSpend_iCryService
                     db.SaveChanges();
                 }
 
-                using (ispend_icryEntities db = new ispend_icryEntities())
-                {
-                    int upd_count = db.balances.Count(x => x.requires_notification == true);
+                Thread.Sleep(4680000);
+            }
+        }
 
-                    if (upd_count > 0)
+        static private void ChangeListener()
+        {
+            while (true)
+            {
+                if (HttpParser.ResponseFailed == false)
+                {
+                    using (ispend_icryEntities db = new ispend_icryEntities())
                     {
-                        Mailer.SendEmail();
+                        int upd_count = db.balances.Count(x => x.requires_notification == true);
+
+                        if (upd_count > 0)
+                        {
+                            Mailer.SendEmail();
+
+                           
+                                foreach (balance b in db.balances)
+                                {
+                                    b.requires_notification = false;
+                                    db.Entry(b).State = System.Data.Entity.EntityState.Modified;
+                                }
+
+                                db.SaveChanges();
+                            
+                        }
                     }
+
+
+                }
+                else
+                {
+                    Mailer.SendEmail(true);
                 }
 
-                // set interval here
-                System.Threading.Thread.Sleep(10000);
+                
+
+                
+                    
+
+                        Thread.Sleep(600000);
             }
         }
     }
