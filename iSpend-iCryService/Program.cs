@@ -128,7 +128,7 @@ namespace iSpend_iCryService
 
                         foreach (TransactionsResult T in Transacts.Results)
                         {
-                            if (db.transactions.Where(x => x.transaction_id == T.TransactionId).ToList().Count == 0)
+                            if (db.transactions.Where(x => x.transaction_id == T.TransactionId && x.timestamp == T.Timestamp).ToList().Count == 0)
                             {
                                 db.transactions.Add(new transaction
                                 {
@@ -168,31 +168,22 @@ namespace iSpend_iCryService
                         {
                             Mailer.SendEmail();
 
-                           
-                                foreach (balance b in db.balances)
-                                {
-                                    b.requires_notification = false;
-                                    db.Entry(b).State = System.Data.Entity.EntityState.Modified;
-                                }
+                            foreach (balance b in db.balances)
+                            {
+                                b.requires_notification = false;
+                                db.Entry(b).State = System.Data.Entity.EntityState.Modified;
+                            }
 
-                                db.SaveChanges();
-                            
+                            db.SaveChanges();
                         }
                     }
-
-
                 }
                 else
                 {
                     Mailer.SendEmail(true);
                 }
 
-                
-
-                
-                    
-
-                        Thread.Sleep(600000);
+                Thread.Sleep(600000);
             }
         }
     }
